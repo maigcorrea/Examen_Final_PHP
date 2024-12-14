@@ -24,6 +24,27 @@
         }
 
 
+        //Función para obtener una lista de clientes
+        public function get_lista(){
+            $sent="SELECT nif, nombre FROM cliente;";
+
+            $cons=$this->bd->prepare($sent);
+            $cons->bind_result($this->nif, $this->nombre);
+            $cons->execute();
+
+            //Almacenamos los valores en un array asociativo clave - nif valor - nombre
+            $lista=[];
+
+            while($cons->fetch()){
+                $lista[$this->nif]=$this->nombre;
+            }
+
+            $cons->close();
+
+            return $lista;
+        }
+
+
         //Función para insertar cliente
         public function insertar_cliente(){
             $sent="INSERT INTO Cliente VALUES(?,?,?,?,?);";
@@ -104,6 +125,17 @@
         }
 
 
+        public function insertar_venta(){
+            $sent="INSERT INTO venta(cliente,producto,fecha,cantidad)VALUES (?,?,?,?);";
+
+            $cons=$this->bd->prepare($sent);
+            $cons->bind_param("sisd",$this->cliente,$this->producto,$this->fecha,$this->cantidad);
+            $cons->execute();
+
+            $cons->close();
+        }
+
+
         public function mostrar_ventas(){
             $sent="SELECT c.nombre, p.descripcion, v.fecha, v.cantidad, v.estado FROM Cliente c,Producto p,Venta v WHERE c.nif=v.cliente AND p.cod=v.producto;";
 
@@ -132,7 +164,7 @@
 
     class Producto{
         private $bd;
-        // private $cod;
+        private $cod;
         private $descripcion;
         private $precio;
 
@@ -140,6 +172,27 @@
             $this->bd=$db;
             $this->descripcion=$desc;
             $this->precio=$p;
+        }
+
+
+        //Función para obtener una lista de productos
+        public function get_lista(){
+            $sent="SELECT cod, descripcion FROM producto";
+
+            $cons=$this->bd->prepare($sent);
+            $cons->bind_result($this->cod,$this->descripcion);
+            $cons->execute();
+
+            //Almacenar los resultados en un array asociativo clave - cod valor - desc
+            $lista=[];
+
+            while($cons->fetch()){
+                $lista[$this->cod]=$this->descripcion;
+            }
+
+            $cons->close();
+
+            return $lista;
         }
 
         public function insertar_Producto(){

@@ -72,7 +72,7 @@
         
         
         //EJERCICIO 4
-        echo "<h2>EJERCICIO 4 - REGISTRO DE PRODUCTOS</h2>";
+        echo "<h2>EJERCICIO 4 - REGISTRO DE PRODUCTO</h2>";
         if(isset($_POST["regProd"])){
             $regProd=new Producto($bd,$_POST["desc"],$_POST["prec"]);
 
@@ -87,6 +87,75 @@
             <input type="number" name="prec" step="0.11" id=""><br>
 
             <input type="submit" value="Registrar producto" name="regProd">
+        </form>
+
+    <?php
+        }
+
+
+
+
+        //EJERCICIO 5
+        echo "<h2>EJERCICIO 5 - REGISTRO DE VENTA</h2>";
+        if(isset($_POST["regVenta"])){
+            $cliente=$_POST["cliente"];
+            $producto=$_POST["producto"];
+            $fecha=$_POST["fecha"];
+            $cantidad=$_POST["cantidad"];
+
+            //Comprobamos que se haya introducido el valor de dni(cliente) e id(producto)correctamente
+            if(strcmp($cliente,"-")!=0 && strcmp($producto,"-")){
+                //Comprobamos que la fecha introducida no sea posterior a la de hoy
+
+                //Obtenemos el tiempo actual en segundos y pasamos la fecha del formulario a segundos con strtotime
+                $tActual=time();//s actuales desde 1970
+                $tDate=strtotime($fecha);//fecha en s desde 1970
+
+                if($tDate<=$tActual){
+
+                    //Pasamos la cantidad de texto a double
+                    $cantidad=doubleval($cantidad);
+
+                    $venta=new Venta($bd,$cliente,$producto,$fecha,$cantidad);
+                    $venta->insertar_venta();
+
+                    echo '<meta http-equiv="Location" content="rel10.php">';//Como el header location pero en HTML
+                }else{
+                    echo "<p>Fecha introducida no válida. La fecha no puede ser futura</p>";
+                }
+            }else{
+                echo "<p>Valor de cliente o producto incorrecto</p>";
+            }
+
+        }else{
+    ?>
+        <form action="#" method="post" enctype="multipart/form-data">
+            <select name="cliente" id="">
+                <option value="" selected disabled>Selecciona un cliente</option>
+                <?php
+                    $cli=new Cliente($bd);
+                    $listaClientes= $cli->get_lista();
+                    foreach ($listaClientes as $key => $value) {
+                        echo "<option value='$key'>$value</option>";
+                    }
+                ?>
+            </select>
+            <select name="producto" id="">
+                <option value="" selected disabled>Selecciona un producto</option>
+                <?php
+                    $prod=new Producto($bd);
+                    $listaProductos=$prod->get_lista();
+                    foreach ($listaProductos as $key => $value) {
+                        echo "<option value='$key'>$value</option>";
+                    }
+                ?>
+            </select>
+            <label for="fecha">Introduce la fecha de compra</label><br>
+            <input type="date" name="fecha" id=""><br>
+            <label for="cantidad">Introduce la cantidad vendida</label><br>
+            <input type="text" name="cantidad"><br>
+
+            <input type="submit" value="Registrar Venta" name="regVenta">
         </form>
 
     <?php
