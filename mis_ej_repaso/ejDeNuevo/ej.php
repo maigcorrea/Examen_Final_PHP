@@ -158,5 +158,28 @@
             echo $vent->ventasNoPagadas()."<input type='checkbox' name='' value=''><br>";
         ?>
     </form>
+
+    <?php
+        //EJERCICIO 8
+        echo "<h2>EJERCICIO 8 -INICIAR SESIÓN</h2>";
+        if(isset($_POST["ini"])){
+            $user=new Cliente($bd);
+            $nif=$user->check_Usuario($_POST["nom"],$_POST["pass"]);
+            $ventas=new Venta($bd);
+            $ventas->ventasParUsuario($nif);
+        }else{
+
+    ?>
+
+            <form action="#" method="post" enctype="multipart/form-data">
+                <input type="text" name="nom" id=""><br>
+                <input type="text" name="pass" id=""><br>
+
+                <input type="submit" value="Enviar" name="ini">
+            </form>
+
+    <?php
+        }
+    ?>
 </body>
 </html>

@@ -16,6 +16,25 @@
             $this->pass=$p;
         }
 
+
+        public function check_Usuario($nom,$pass){
+            $sent="SELECT nif FROM Cliente WHERE nombre=? AND pass=?;";
+
+            $cons=$this->bd->prepare($sent);
+            $cons->bind_param("ss",$nom,$pass);
+            $cons->bind_result($this->nif);
+            $cons->execute();
+
+            $cons->fetch();
+
+            if($this->nif){
+                return $this->nif;
+            }
+
+            $cons->close();
+        }
+
+
         public function getLista(){
             $sent="SELECT nif,nombre FROM Cliente";
 
@@ -81,6 +100,26 @@
             $this->fecha=$fe;
             $this->cantidad=$cant;
         }
+
+
+
+        public function ventasParUsuario($nif){
+            $sent="SELECT c.nombre, v.producto,v.fecha,v.cantidad,v.estado FROM Venta v, Cliente c WHERE v.cliente=?;";
+
+            $cons=$this->bd->prepare($sent);
+            $cons->bind_param("s",$nif);
+            $cons->bind_result($this->cliente,$this->producto,$this->fecha,$this->cantidad, $this->estado);
+            $cons->execute();
+
+            while($cons->fetch()){
+                echo $this;
+            }
+
+            $cons->close();
+
+        }
+
+
 
         public function ventasNoPagadas(){
             $sent="SELECT c.nombre, p.descripcion, v.fecha, v.cantidad, v.estado FROM cliente c, venta v, producto p WHERE v.cliente=c.nif AND v.producto=p.cod AND v.estado IS NULL;";
