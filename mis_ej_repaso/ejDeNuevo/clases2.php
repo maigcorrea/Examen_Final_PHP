@@ -128,6 +128,22 @@
             $this->precio=$pre;
         }
 
+
+        public function mostrarPrecio($cod){
+            $sent="SELECT descripcion, precio FROM producto WHERE cod=?;";
+
+            $cons=$this->bd->prepare($sent);
+            $cons->bind_param("i",$cod);
+            $cons->bind_result($this->descripcion,$this->precio);
+            $cons->execute();
+
+            $cons->fetch();
+
+            $cons->close();
+
+            echo "El precio de $this->descripcion es $this->precio €<br>";
+        }
+
         public function getLista(){
             $sent="SELECT cod, descripcion FROM producto;";
 

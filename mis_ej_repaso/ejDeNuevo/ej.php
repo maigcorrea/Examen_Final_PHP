@@ -122,6 +122,34 @@
         </form>
     <?php
         }
+
+        //EJERCICIO 6
+        echo "<h2>EJERCICIO 6 - COMPROBAR PRECIO DE PRODUCTOS</h2>";
+        if(isset($_POST["obtP"])){
+            $prod=new Producto($bd);
+            foreach ($_POST as $key => $value) {
+                if(str_contains($key,"prod")){
+                    $prod->mostrarPrecio($value);
+                }
+            }
+        }else{
+    ?>
+        <form action="#" method="post" enctype="multipart/form-data">
+            
+            <?php
+                $produc=new Producto($bd);
+                $listaP=$produc->getLista();
+                foreach ($listaP as $key => $value) {
+                    echo "$value<input type='checkbox' name='prod$key' value='$key'><br>";
+                }
+            ?>
+
+            <input type="submit" value="Enviar" name="obtP">
+        </form>
+    <?php
+        }
+
+        //EJERCICIO 7
     ?>
 </body>
 </html>
