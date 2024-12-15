@@ -162,6 +162,29 @@
         }
 
         //EJERCICIO 6
+        echo "<br><br>";
+        echo "<h2>EJERCICIO 6 - MOSTRAR PRECIO DE PRODUCTOS</h2>";
+        if(isset($_POST["precio"])){
+            $produ=new Producto($bd);
+            foreach ($_POST as $key => $value) {
+                if(str_contains($key,"prod")){
+                    $produ->mostrar_precio($value);
+                }
+            }
+        }else{
+    ?>
+            <form action="#" method="post" enctype="multipart/form-data">
+                <?php
+                    $pro=new Producto($bd);
+                    $prod_list=$pro->get_lista();
+                    foreach ($prod_list as $key => $value) {
+                        echo "$value<input type='checkbox' name='prod$key' value='$key'><br>";
+                    }
+                ?>
+                <input type="submit" value="Mostrar precio" name="precio">
+            </form>
+    <?php
+        }
     ?>
 </body>
 </html>

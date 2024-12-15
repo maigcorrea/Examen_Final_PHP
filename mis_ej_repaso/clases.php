@@ -174,6 +174,21 @@
             $this->precio=$p;
         }
 
+        //Función para mostrar el precio de un producto
+        public function mostrar_precio($cod){
+            $sent="SELECT descripcion,precio FROM producto WHERE cod=?;";
+
+            $cons=$this->bd->prepare($sent);
+            $cons->bind_param("i",$cod);
+            $cons->bind_result($this->descripcion,$this->precio);
+            $cons->execute();
+
+            $cons->fetch();
+
+            echo "El precio de $this->descripcion es $this->precio €<br>";
+            $cons->close();
+        }
+
 
         //Función para obtener una lista de productos
         public function get_lista(){
