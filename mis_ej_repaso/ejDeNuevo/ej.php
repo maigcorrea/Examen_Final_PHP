@@ -22,7 +22,7 @@
         $cli->mostrarDatos();
 
 
-        
+
         //EJERCICIO 2
         echo "<h2>EJERCICIO 2 - MOSTRAR VENTAS</h2>";
         $venta=new Venta($bd);
@@ -55,6 +55,26 @@
             <input type="submit" value="Registrar usuario" name="regCli">
         </form>
 
+    <?php
+        }
+
+
+        //EJERCICIO 4
+        echo "<h2>EJERCICIO 4 - INSERTAR Producto</h2>";
+        if(isset($_POST["regProd"])){
+            //Pasar precio a double
+            $precio=doubleval($_POST["prec"]);
+
+            $producto=new Producto($bd,$_POST["prod"],$precio);
+            $producto->insertarProd();
+        }else{
+    ?>
+        <form action="#" method="post" enctype="multipart/form-data">
+            <input type="text" name="prod" id="" placeholder="Producto"><br>
+            <input type="text" name="prec" id="" placeholder="Precio"><br>
+
+            <input type="submit" value="Enviar" name="regProd">
+        </form>
     <?php
         }
     ?>

@@ -90,4 +90,27 @@
         }
     }
 
+
+    class Producto{
+        private $bd;
+        private $cod;
+        private $descripcion;
+        private $precio;
+
+        public function __construct(MySqli $db, $desc="", $pre=0){
+            $this->bd=$db;
+            $this->descripcion=$desc;
+            $this->precio=$pre;
+        }
+
+        public function insertarProd(){
+            $sent="INSERT INTO producto(descripcion,precio) VALUES (?,?);";
+
+            $cons=$this->bd->prepare($sent);
+            $cons->bind_param("sd",$this->descripcion,$this->precio);
+            $cons->execute();
+
+            $cons->close();
+        }
+    }
 ?>
