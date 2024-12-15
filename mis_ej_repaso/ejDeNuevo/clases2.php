@@ -82,6 +82,19 @@
             $this->cantidad=$cant;
         }
 
+        public function ventasNoPagadas(){
+            $sent="SELECT c.nombre, p.descripcion, v.fecha, v.cantidad, v.estado FROM cliente c, venta v, producto p WHERE v.cliente=c.nif AND v.producto=p.cod AND v.estado IS NULL;";
+
+            $cons=$this->bd->prepare($sent);
+            $cons->bind_result($this->cliente,$this->producto,$this->fecha,$this->cantidad, $this->estado);
+            $cons->execute();
+
+            $lista=[];
+            while($cons->fetch()){
+                echo $this."";
+            }
+            $cons->close();
+        }
 
         public function insertarVenta(){
             $sent="INSERT INTO venta (cliente,producto,fecha,cantidad) VALUES (?,?,?,?);";

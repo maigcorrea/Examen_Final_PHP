@@ -150,6 +150,13 @@
         }
 
         //EJERCICIO 7
+        echo "<h2>EJERCICIO 7 - MODIFICAR VENTAS</h2>";
     ?>
+    <form action="#" method="post" enctype="multipart/form-data">
+        <?php
+            $vent=new Venta($bd);
+            echo $vent->ventasNoPagadas()."<input type='checkbox' name='' value=''><br>";
+        ?>
+    </form>
 </body>
 </html>
