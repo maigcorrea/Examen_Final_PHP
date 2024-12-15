@@ -160,6 +160,8 @@
 
     <?php
         }
+
+        //EJERCICIO 6
     ?>
 </body>
 </html>
