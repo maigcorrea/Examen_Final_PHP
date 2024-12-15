@@ -77,6 +77,51 @@
         </form>
     <?php
         }
+
+
+        //EJERCICIO 5
+        echo "<h2>EJERCICIO 5 - INSERTAR VENTA</h2>";
+        if(isset($_POST["regVenta"])){
+            //Comprobar que la fecha no sea posterior al dia de hoy
+            $tiempoActual=time();
+            $tiempoFecha=strtotime($_POST["fecha"]);
+
+            if($tiempoFecha<=$tiempoActual){
+                $vent=new Venta($bd,$_POST["cliente"],$_POST["producto"],$_POST["fecha"],$_POST["cantidad"]);
+                $vent->insertarVenta();
+            }
+        }else{
+    ?>
+        <form action="#" method="post" enctype="multipart/form-data">
+            <select name="cliente" id="">
+                <option value="" disabled selected>Selecciona un cliente</option>
+                <?php
+                    $clie=new Cliente($bd);
+                    $listaClientes=$clie->getLista();
+                    foreach ($listaClientes as $key => $value) {
+                        echo "<option value='$key'>$value</option>";
+                    }
+                ?>
+            </select><br>
+
+            <select name="producto" id="">
+                <option value="" disabled selected>Selecciona un producto</option>
+                <?php
+                    $produ=new Producto($bd);
+                    $listaProd=$produ->getLista();
+                    foreach ($listaProd as $key => $value) {
+                        echo "<option value='$key'>$value</option>";
+                    }
+                ?>
+            </select><br>
+
+            <input type="date" name="fecha" id="" placeholder="Fecha"><br>
+            <input type="text" name="cantidad" id="" placeholder="Cantidad"><br>
+
+            <input type="submit" value="Enviar" name="regVenta">
+        </form>
+    <?php
+        }
     ?>
 </body>
 </html>
